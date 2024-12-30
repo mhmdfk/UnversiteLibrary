@@ -1,5 +1,5 @@
 
-package com.library.model;
+package models;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

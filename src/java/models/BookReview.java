@@ -1,12 +1,12 @@
 
-package com.library.model;
+package models;
 
 import java.time.LocalDateTime;
 
 public class BookReview {
     private Long reviewId;
     private Book book;
-    private Patron patron;
+    //private Patron patron;
     private Integer rating;
     private String comment;
     private LocalDateTime createdAt;
@@ -30,13 +30,13 @@ public class BookReview {
     }
     
 
-    public Patron getPatron() {
-        return patron;
-    }
+   // public Patron getPatron() {
+       // return patron;
+    //}
     
-    public void setPatron(Patron patron) {
-        this.patron = patron;
-    }
+    //public void setPatron(Patron patron) {
+        //this.patron = patron;
+   // }
     
 
     public Integer getRating() {

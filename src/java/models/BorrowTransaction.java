@@ -1,11 +1,10 @@
 
-package com.library.model;
-
+package models;
 import java.time.LocalDateTime;
 
 public class BorrowTransaction {
     private String transactionId;  // Format: BT######
-    private Patron patron;
+    //private Patron patron;
     private Book book;
     private LocalDateTime borrowDate;
     private LocalDateTime dueDate;
@@ -26,13 +25,13 @@ public class BorrowTransaction {
     }
     
 
-    public Patron getPatron() {
-        return patron;
-    }
+    //public Patron getPatron() {
+        //return patron;
+   // }
     
-    public void setPatron(Patron patron) {
-        this.patron = patron;
-    }
+    //public void setPatron(Patron patron) {
+        //this.patron = patron;
+    //}
     
 
     public Book getBook() {

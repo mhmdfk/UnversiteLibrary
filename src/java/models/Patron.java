@@ -1,11 +1,11 @@
 
-package com.library.model;
+package models;
 
 import java.time.LocalDate;
 
 public class Patron {
     private Long patronId;
-    private User user;
+    //private User user;
     private PatronType patronType;
     private LocalDate dateOfBirth;
     private PatronStatus status;
@@ -28,13 +28,13 @@ public class Patron {
     }
     
 
-    public User getUser() {
-        return user;
-    }
+    //public User getUser() {
+       // return user;
+   // }
     
-    public void setUser(User user) {
-        this.user = user;
-    }
+    //public void setUser(User user) {
+        //this.user = user;
+   // }
     
 
     public PatronType getPatronType() {
