@@ -7,6 +7,7 @@ import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,42 @@ public class Admin {
         this.password = password;
     }
     
+public static void updateBook(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+    // Define the SQL query
+        String sql = "UPDATE books SET isbn = ?, title = ?, author = ?, genre = ?, publication_year = ?, total_copies = ?, available_copies = ? WHERE id = ?";
+
+
+    // Logging for debugging
+    System.out.println("Updating book with ID: " + request.getParameter("id"));
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        // Set parameters in the correct order
+              stmt.setString(1, request.getParameter("isbn")); // ISBN
+        stmt.setString(2, request.getParameter("title")); // Title
+        stmt.setString(3, request.getParameter("author")); // Author
+        stmt.setString(4, request.getParameter("genre")); // Genre
+        stmt.setInt(5, Integer.parseInt(request.getParameter("publicationYear"))); // Publication Year
+        stmt.setInt(6, Integer.parseInt(request.getParameter("totalCopies"))); // Total Copies
+        stmt.setInt(7, Integer.parseInt(request.getParameter("availableCopies"))); // Available Copies
+        stmt.setLong(8, Long.parseLong(request.getParameter("id"))); // Book ID
+
+        // Execute the update
+        int rowsAffected = stmt.executeUpdate();
+
+        // Logging success
+        System.out.println("Book updated successfully. Rows affected: " + rowsAffected);
+    } catch (NumberFormatException e) {
+        // Log and handle number format issues
+        System.err.println("Invalid input format: " + e.getMessage());
+        throw e;
+    } catch (SQLException e) {
+        // Log and handle SQL issues
+        System.err.println("SQL error while updating book: " + e.getMessage());
+        throw e;
+    }
+}
         public static List<Patron> fetchPatrons() {
         List<Patron> patrons = new ArrayList<>();
         String sql = "SELECT id, username, password, full_name FROM patrons order by id;";

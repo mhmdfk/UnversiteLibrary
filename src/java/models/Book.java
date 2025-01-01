@@ -33,6 +33,14 @@ public class Book {
         this.updatedAt = updatedAt;
     }
 
+    public Book(long bookId, String bn, String title, String author, String publisher, int year) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public Book(long bookId, String bn, String title, String author, String publisher, int year, int totalCopies, int availableCopies) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -95,7 +103,7 @@ public class Book {
     // Retrieve all books from the database
     public static List<Book> getAllBooks() throws SQLException {
         List<Book> books = new ArrayList<>();
-        String query = "SELECT * FROM books";
+        String query = "SELECT * FROM books order by publication_year DESC";
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {

@@ -1,6 +1,7 @@
 
 package controller;
 
+import com.sun.jdi.connect.spi.Connection;
 import models.Patron;
 import models.Librarian;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Admin;
 import models.Book;
+import controller.DatabaseConnection;
 
 
 @WebServlet("/admin")
@@ -73,6 +75,46 @@ public class AdminController extends HttpServlet {
                 case "/addLibrarian":
                     request.getRequestDispatcher("/WEB-INF/views/common/addLibrarian.jsp").forward(request, response);
                     break;
+                    
+                case "/editBook":
+                    
+                        String bookId = request.getParameter("id");
+                if (bookId != null) {
+                    try {
+                            long id = Long.parseLong(bookId);
+                            Book book = Book.getBookById(id); // Fetch book from database
+                            System.out.println("BBBBB: " + book);
+                            request.setAttribute("book", book);
+                            request.getRequestDispatcher("/WEB-INF/views/common/editBook.jsp").forward(request, response);
+                            
+                    } catch (NumberFormatException | SQLException ex) {
+                            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid book ID.");
+                    }
+                }
+                else {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Book ID is required.");
+                    }
+                    break;
+
+                    
+                    
+                case "/deleteBook":
+                    
+                    
+                {
+                    try {
+                        long id = Long.parseLong(request.getParameter("id"));
+                        Book.getBookById(id).delete();
+                        
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                    
+                    response.sendRedirect(request.getContextPath() + "/admin?view=books");
+                    break;
+
                 default:
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Action not found");
                     break;
@@ -85,7 +127,7 @@ public class AdminController extends HttpServlet {
         throws ServletException, IOException {
         String action = request.getPathInfo();  // This retrieves the 'action' parameter
 
-        System.out.println("Post action :: " + action);
+        System.out.println("Post action ::" + action);
 
         switch (action) {
             case "/updatePatron":
@@ -106,14 +148,27 @@ public class AdminController extends HttpServlet {
                 Admin.createLibrarian(request, response);
                 response.sendRedirect(request.getContextPath() + "/admin?view=librarians");
                 break;
+            
+            case "/updateBook":
+                try {
+                                       
+                    Admin.updateBook(request , response); // Update the book in the database
+
+                    response.sendRedirect(request.getContextPath() + "/admin?view=books");
+                } catch (Exception e) {
+                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, e);
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Failed to update the book.");
+                }
+
+                break;
             default:
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action.");
                 break;
         }
     }
+    
+  
 
-    
-    
     private void showEditPatronForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String patronId = request.getParameter("id");

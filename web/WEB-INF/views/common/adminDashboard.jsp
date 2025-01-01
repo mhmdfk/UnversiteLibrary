@@ -193,6 +193,7 @@
             </tr>
         </thead>
         <tbody>
+            
             <% 
                 List<Book> books = (List<Book>) request.getAttribute("books");
                 if (books != null) {
