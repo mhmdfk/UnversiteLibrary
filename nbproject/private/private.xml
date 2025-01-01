@@ -4,14 +4,18 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/faisal/Desktop/UnversiteLibrary/src/java/controller/AdminController.java</file>
+            <file>file:/Users/faisal/Desktop/UnversiteLibrary/web/WEB-INF/views/common/addLibrarian.jsp</file>
+            <file>file:/Users/faisal/Desktop/UnversiteLibrary/src/java/controller/PatronController.java</file>
             <file>file:/Users/faisal/Desktop/UnversiteLibrary/src/java/controller/DatabaseConnection.java</file>
             <file>file:/Users/faisal/Desktop/UnversiteLibrary/src/java/models/Patron.java</file>
             <file>file:/Users/faisal/Desktop/UnversiteLibrary/src/java/controller/BookController.java</file>
+            <file>file:/Users/faisal/Desktop/UnversiteLibrary/src/java/models/BorrowTransaction.java</file>
             <file>file:/Users/faisal/Desktop/UnversiteLibrary/web/WEB-INF/views/common/editPatron.jsp</file>
             <file>file:/Users/faisal/Desktop/UnversiteLibrary/src/java/models/Librarian.java</file>
             <file>file:/Users/faisal/Desktop/UnversiteLibrary/web/WEB-INF/views/common/bookList.jsp</file>
             <file>file:/Users/faisal/Desktop/UnversiteLibrary/web/WEB-INF/views/common/login.jsp</file>
             <file>file:/Users/faisal/Desktop/UnversiteLibrary/web/WEB-INF/views/common/editLibrarian.jsp</file>
+            <file>file:/Users/faisal/Desktop/UnversiteLibrary/web/WEB-INF/views/common/addPatron.jsp</file>
             <file>file:/Users/faisal/Desktop/UnversiteLibrary/src/java/controller/AuthController.java</file>
             <file>file:/Users/faisal/Desktop/UnversiteLibrary/src/java/models/Admin.java</file>
             <file>file:/Users/faisal/Desktop/UnversiteLibrary/web/WEB-INF/views/common/bookView.jsp</file>
