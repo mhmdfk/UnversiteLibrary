@@ -15,6 +15,9 @@ public class Fine {
     public enum FineStatus {
         PENDING, PAID
     }
+    
+    
+
 
     
     public Long getFineId() {

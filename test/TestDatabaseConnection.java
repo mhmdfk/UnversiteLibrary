@@ -14,6 +14,7 @@ import java.sql.Connection;
 public class TestDatabaseConnection {
     public static void main(String[] args) {
         try (Connection conn = DatabaseConnection.getConnection()) {
+            System.out.println("conn: "+ conn );
             if (conn != null) {
                 System.out.println("Connection successful!");
             } else {

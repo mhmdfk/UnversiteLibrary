@@ -1,6 +1,10 @@
 package models;
 
+import controller.DatabaseConnection;
+import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Book {
     private Long id;
@@ -59,6 +63,150 @@ public class Book {
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    // DAO Methods
+
+    // Add a new book to the database
+    public void save() throws SQLException {
+        String query = "INSERT INTO books (isbn, title, author, genre, publication_year, total_copies, available_copies, created_at, updated_at) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, this.isbn);
+            pstmt.setString(2, this.title);
+            pstmt.setString(3, this.author);
+            pstmt.setString(4, this.genre);
+            pstmt.setInt(5, this.publicationYear);
+            pstmt.setInt(6, this.totalCopies);
+            pstmt.setInt(7, this.availableCopies);
+            pstmt.setTimestamp(8, Timestamp.valueOf(this.createdAt));
+            pstmt.setTimestamp(9, Timestamp.valueOf(this.updatedAt));
+            pstmt.executeUpdate();
+
+            // Retrieve the generated ID
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    this.id = rs.getLong(1);
+                }
+            }
+        }
+    }
+
+    // Retrieve all books from the database
+    public static List<Book> getAllBooks() throws SQLException {
+        List<Book> books = new ArrayList<>();
+        String query = "SELECT * FROM books";
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                Book book = new Book(
+                        rs.getLong("id"),
+                        rs.getString("isbn"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("genre"),
+                        rs.getInt("publication_year"),
+                        rs.getInt("total_copies"),
+                        rs.getInt("available_copies"),
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getTimestamp("updated_at").toLocalDateTime()
+                );
+                
+//                System.out.println(book);
+                books.add(book);
+            }
+        }
+        return books;
+    }
+
+    // Retrieve a book by ID
+    public static Book getBookById(Long id) throws SQLException {
+        String query = "SELECT * FROM books WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setLong(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Book(
+                            rs.getLong("id"),
+                            rs.getString("isbn"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getString("genre"),
+                            rs.getInt("publication_year"),
+                            rs.getInt("total_copies"),
+                            rs.getInt("available_copies"),
+                            rs.getTimestamp("created_at").toLocalDateTime(),
+                            rs.getTimestamp("updated_at").toLocalDateTime()
+                    );
+                }
+            }
+        }
+        return null;
+    }
+
+    // Update a book in the database
+    public void update() throws SQLException {
+        String query = "UPDATE books SET isbn = ?, title = ?, author = ?, genre = ?, publication_year = ?, " +
+                       "total_copies = ?, available_copies = ?, updated_at = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, this.isbn);
+            pstmt.setString(2, this.title);
+            pstmt.setString(3, this.author);
+            pstmt.setString(4, this.genre);
+            pstmt.setInt(5, this.publicationYear);
+            pstmt.setInt(6, this.totalCopies);
+            pstmt.setInt(7, this.availableCopies);
+            pstmt.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setLong(9, this.id);
+            pstmt.executeUpdate();
+        }
+    }
+
+    // Delete a book from the database
+    public void delete() throws SQLException {
+        String query = "DELETE FROM books WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setLong(1, this.id);
+            pstmt.executeUpdate();
+        }
+    }
+
+    public static List<Book> searchBooks(String searchQuery) throws SQLException {
+    List<Book> books = new ArrayList<>();
+    String query = "SELECT * FROM books WHERE title ILIKE ? OR author ILIKE ?";
+    
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        
+        // Search for books by title or author using LIKE operator
+        String searchPattern = "%" + searchQuery + "%";
+        pstmt.setString(1, searchPattern);
+        pstmt.setString(2, searchPattern);
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Book book = new Book(
+                        rs.getLong("id"),
+                        rs.getString("isbn"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("genre"),
+                        rs.getInt("publication_year"),
+                        rs.getInt("total_copies"),
+                        rs.getInt("available_copies"),
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getTimestamp("updated_at").toLocalDateTime()
+                );
+                books.add(book);
+            }
+        }
+    }
+    return books;
+}
 
     // Override toString() for debugging
     @Override

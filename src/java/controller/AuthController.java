@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import controller.DatabaseConnection;
 
 public class AuthController extends HttpServlet {
 
@@ -25,6 +24,8 @@ public class AuthController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getPathInfo();
+        System.out.println("action: " + action);
+        
         if (action == null) {
             action = "/login";
         }
@@ -67,10 +68,17 @@ public class AuthController extends HttpServlet {
 
     private void processLogin(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+   
+   
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        
+        System.out.println("username: " + username);
+        System.out.println("password: " + password);
 
         try (Connection conn = DatabaseConnection.getConnection()) {
+            
+            System.out.println("Reach 1");
             String query = "SELECT username, role FROM Users WHERE username = ? AND password = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, username);
@@ -78,20 +86,25 @@ public class AuthController extends HttpServlet {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
+                
+                
                 String userRole = rs.getString("role");
-
+                System.out.println("UserRole:  "+ userRole);
                 // Store username and role in session
                 HttpSession session = request.getSession();
                 session.setAttribute("username", username);
                 session.setAttribute("role", userRole);
 
-                // Redirect based on role
+                System.out.println("GOT here");
+//                 Redirect based on role
                 if ("Admin".equalsIgnoreCase(userRole)) {
-                    response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+                        request.getRequestDispatcher("/WEB-INF/views/common/adminDashboard.jsp").forward(request, response);
                 } else if ("Librarian".equalsIgnoreCase(userRole)) {
                     response.sendRedirect(request.getContextPath() + "/librarian/dashboard");
+                    
                 } else if ("Patron".equalsIgnoreCase(userRole)) {
-                    response.sendRedirect(request.getContextPath() + "/patron/dashboard");
+//                    request.getRequestDispatcher("/WEB-INF/views/common/bookList.jsp").forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/book");
                 }
             } else {
                 // Login failed
@@ -99,6 +112,7 @@ public class AuthController extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/views/common/login.jsp").forward(request, response);
             }
         } catch (Exception e) {
+            System.out.println("SSS");
             throw new ServletException("Database connection error", e);
         }
     }

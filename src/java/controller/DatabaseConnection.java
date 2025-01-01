@@ -9,6 +9,7 @@ package controller;
  * @author faisal
  */
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,7 +19,18 @@ public class DatabaseConnection {
     private static final String USER = "postgres";
     private static final String PASSWORD = "tlysxjEwxLSAlJjS";
 
+    static {
+        try {
+            Class.forName("org.postgresql.Driver"); // Explicitly register the driver
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Failed to load PostgreSQL JDBC driver", e);
+        }
+    }
+
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        System.out.println("Attempting to connect to database...");
+        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        System.out.println("Connected to database successfully!");
+        return conn;
     }
 }
