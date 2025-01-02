@@ -94,7 +94,7 @@
         <button type="submit">Save Changes</button>
     </form>
     <% } else { %>
-        <p>Patron not found.</p>
+        <p>User Already exist.</p>
     <% } %>
 </body>
 </html>

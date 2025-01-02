@@ -55,10 +55,7 @@ public class AdminController extends HttpServlet {
                     showEditPatronForm(request, response);
                     break;
                 case "/deletePatron":
-                    request.getParameter("id");
-                    
-                    
-                    
+                    request.getParameter("id");    
                     Admin.deletePatronById(request.getParameter("id"));
                     response.sendRedirect(request.getContextPath() + "/admin?view=patrons");
                     break;

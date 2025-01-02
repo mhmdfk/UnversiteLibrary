@@ -299,6 +299,7 @@ public static void updateBook(HttpServletRequest request, HttpServletResponse re
         return librarian;
     }
 
+    
     public static void deletePatronById(String id) {
         String sql = "DELETE FROM patrons WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();

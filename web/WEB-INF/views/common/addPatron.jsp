@@ -69,7 +69,7 @@
             <div style="color: red; font-weight: bold;">
                 <%= request.getAttribute("errorMessage") %>
             </div>
-        <% } %>
+        
 
     <form action="<%= request.getContextPath() %>/admin/addPatron" method="post">
         <label for="username">Username:</label>
@@ -84,6 +84,7 @@
         <button type="submit">Add Patron</button>
     </form>
 
+        
     <div class="back-link">
         <a href="<%= request.getContextPath() %>/admin?view=patrons">Back to Patrons List</a>
     </div>

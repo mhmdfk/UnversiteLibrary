@@ -69,7 +69,7 @@
         <button type="submit">Save Changes</button>
     </form>
     <% } else { %>
-        <p>Librarian not found.</p>
+        <p> User Already exist.</p>
     <% } %>
 </body>
 </html>

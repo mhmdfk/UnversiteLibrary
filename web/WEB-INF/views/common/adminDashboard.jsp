@@ -189,6 +189,10 @@
                 <th>Book ID</th>
                 <th>Title</th>
                 <th>Author</th>
+                <th>Genre</th>
+                <th>Publication Year</th>
+                <th>Total Copies</th>
+                <th>Available Copies</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -203,6 +207,11 @@
                         <td><%= book.getId() %></td>
                         <td><%= book.getTitle() %></td>
                         <td><%= book.getAuthor() %></td>
+                        <td><%= book.getGenre() %></td>
+                        <td><%= book.getPublicationYear()%></td>
+                        <td><%= book.getTotalCopies()%></td>
+                        <td><%= book.getAvailableCopies()%></td>
+                        <td><%= book.getPublicationYear()%></td>
                         <td class="actions">
                             <a href="<%= request.getContextPath() %>/admin/editBook?id=<%= book.getId() %>">Edit</a>
                             <a href="javascript:void(0);" onclick="confirmDelete('<%= request.getContextPath() %>/admin/deleteBook?id=<%= book.getId() %>')">Delete</a>
