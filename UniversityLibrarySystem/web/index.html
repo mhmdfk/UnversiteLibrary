@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome to The Library</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+            .welcome-container {
+                text-align: center;
+                background-color: #ffffff;
+                padding: 40px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+                color: #333;
+                margin-bottom: 20px;
+            }
+            .button-container {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            .button-container button {
+                padding: 10px 20px;
+                font-size: 16px;
+                color: #fff;
+                background-color: #28a745;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+            .button-container button:hover {
+                background-color: #218838;
+            }
+        </style>
+        <script>
+            // Function to get the root context path dynamically
+            function getContextPath() {
+                return window.location.pathname.split('/')[1] || '';
+            }
+
+            // Function to handle button clicks
+            function navigateToLogin(role) {
+                const contextPath = getContextPath();
+                const url = `/${contextPath}/auth/login-${role}`;
+                window.location.href = url;
+            }
+        </script>
+    </head>
+    <body>
+        <div class="welcome-container">
+            <h1>Welcome to The Library</h1>
+            <div class="button-container">
+                <!-- Login as Patron -->
+                <button onclick="navigateToLogin('patron')">Login as Patron</button>
+                
+                <!-- Login as Admin -->
+                <button onclick="navigateToLogin('admin')">Login as Admin</button>
+                
+                <!-- Login as Librarian -->
+                <button onclick="navigateToLogin('librarian')">Login as Librarian</button>
+            </div>
+        </div>
+    </body>
+</html>
